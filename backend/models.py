@@ -10,9 +10,10 @@ class User(Base):
     email           = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     full_name       = Column(String)
-    company         = Column(String)        # ← NEW
-    job_title       = Column(String)        # ← NEW
-    phone           = Column(String)        # ← NEW
+    company         = Column(String)
+    job_title       = Column(String)
+    phone           = Column(String)
+    plan            = Column(String, default="free")   # ← NEW: 'free', 'pro', 'premium'
     created_at      = Column(DateTime(timezone=True), server_default=func.now())
     projects        = relationship("Project", back_populates="owner")
     support_tickets = relationship("SupportTicket", back_populates="user")
@@ -64,16 +65,16 @@ class ProjectHistory(Base):
     __tablename__ = "project_history"
     id                           = Column(Integer, primary_key=True, index=True)
     owner_id                     = Column(Integer, ForeignKey("users.id"), nullable=False)
-    original_project_id          = Column(Integer, nullable=True)   # kept for reference; may be NULL after project hard-deleted
+    original_project_id          = Column(Integer, nullable=True)
     title                        = Column(String, nullable=False)
-    created_at                   = Column(DateTime(timezone=True), nullable=True)   # original project creation date
+    created_at                   = Column(DateTime(timezone=True), nullable=True)
     deleted_at                   = Column(DateTime(timezone=True), server_default=func.now())
     candidate_count              = Column(Integer, default=0)
     jd_required_skills           = Column(JSON, default=[])
     jd_required_experience_years = Column(Float, default=0.0)
     jd_required_education        = Column(String, default="")
     jd_nice_to_have_skills       = Column(JSON, default=[])
-    candidates_snapshot          = Column(JSON, default=[])   # full candidate data at time of deletion
+    candidates_snapshot          = Column(JSON, default=[])
     owner = relationship("User", back_populates="project_history")
 
 

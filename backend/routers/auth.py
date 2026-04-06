@@ -16,14 +16,18 @@ class SignupRequest(BaseModel):
     email:     EmailStr
     password:  str
     full_name: str = ""
-    company:   Optional[str] = None   # ← NEW
-    job_title: Optional[str] = None   # ← NEW
-    phone:     Optional[str] = None   # ← NEW
+    company:   Optional[str] = None
+    job_title: Optional[str] = None
+    phone:     Optional[str] = None
 
 
 class TokenResponse(BaseModel):
     access_token: str
     token_type:   str = "bearer"
+
+
+class UpdatePlanRequest(BaseModel):
+    plan: str   # 'free', 'pro', 'premium'
 
 
 # ── Signup ────────────────────────────────────────────────────────────────────
@@ -38,9 +42,10 @@ def signup(body: SignupRequest, db: Session = Depends(get_db)):
         email           = body.email,
         hashed_password = auth_utils.hash_password(body.password),
         full_name       = body.full_name,
-        company         = body.company,    # ← NEW
-        job_title       = body.job_title,  # ← NEW
-        phone           = body.phone,      # ← NEW
+        company         = body.company,
+        job_title       = body.job_title,
+        phone           = body.phone,
+        plan            = "free",   # default plan on signup
     )
     db.add(user)
     db.commit()
@@ -72,7 +77,30 @@ def me(current_user: models.User = Depends(auth_utils.get_current_user)):
         "id":        current_user.id,
         "email":     current_user.email,
         "full_name": current_user.full_name,
-        "company":   current_user.company,    # ← NEW
-        "job_title": current_user.job_title,  # ← NEW
-        "phone":     current_user.phone,      # ← NEW
+        "company":   current_user.company,
+        "job_title": current_user.job_title,
+        "phone":     current_user.phone,
+        "plan":      current_user.plan or "free",   # ← NEW
+    }
+
+
+# ── Update Plan ───────────────────────────────────────────────────────────────
+
+@router.post("/update-plan")
+def update_plan(
+    body: UpdatePlanRequest,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(auth_utils.get_current_user),
+):
+    valid_plans = ["free", "pro", "premium"]
+    if body.plan not in valid_plans:
+        raise HTTPException(status_code=400, detail=f"Invalid plan. Must be one of {valid_plans}")
+
+    current_user.plan = body.plan
+    db.commit()
+    db.refresh(current_user)
+
+    return {
+        "message": f"Plan updated to {body.plan}",
+        "plan":    current_user.plan,
     }
