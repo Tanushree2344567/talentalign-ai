@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api";
 import "./ChoosePlan.css";
 
 const plans = [
@@ -10,7 +11,7 @@ const plans = [
     period: "forever",
     desc: "Perfect for trying out TalentAlign",
     features: ["10 resumes / month", "Basic AI matching", "Candidate ranking", "Email notifications"],
-    btnLabel: "Get Started",
+    btnLabel: "Get Started Free",
     highlight: false,
     badge: null,
   },
@@ -39,28 +40,51 @@ const plans = [
 ];
 
 const ChoosePlan = () => {
-  const navigate = useNavigate();
+  const navigate  = useNavigate();
   const [selected, setSelected] = useState(null);
+  const [loading,  setLoading]  = useState(false);
 
-  const handleSelect = (planId) => {
-    setSelected(planId);
-    localStorage.setItem("user_plan", planId);
-    setTimeout(() => navigate("/dashboard"), 300);
+  // No redirect guard here — users can revisit to upgrade anytime
+
+  const savePlanToBackend = async (planId) => {
+    try {
+      await api.post("/auth/update-plan", { plan: planId });
+    } catch (e) {
+      console.error("Failed to save plan:", e);
+    }
   };
 
-  const handleSkip = () => {
+  const handleSelect = async (plan) => {
+    setSelected(plan.id);
+    setLoading(true);
+
+    if (plan.id === "free") {
+      await savePlanToBackend("free");
+      localStorage.setItem("user_plan", "free");
+      localStorage.setItem("plan_chosen", "true");
+      localStorage.removeItem("show_choose_plan");
+      navigate("/dashboard");
+    } else {
+      localStorage.setItem("user_plan", plan.id);
+      navigate("/payment", { state: { plan } });
+    }
+
+    setLoading(false);
+  };
+
+  const handleSkip = async () => {
+    await savePlanToBackend("free");
     localStorage.setItem("user_plan", "free");
+    localStorage.setItem("plan_chosen", "true");
+    localStorage.removeItem("show_choose_plan");
     navigate("/dashboard");
   };
 
   return (
     <div className="plan-page">
-
-      {/* Background glow */}
       <div className="plan-glow plan-glow-1" />
       <div className="plan-glow plan-glow-2" />
 
-      {/* Header */}
       <div className="plan-header">
         <div className="plan-logo">
           <div className="plan-logo-mark">TA</div>
@@ -70,7 +94,6 @@ const ChoosePlan = () => {
         <p className="plan-subtitle">Select a plan that fits your hiring needs. Upgrade or downgrade anytime.</p>
       </div>
 
-      {/* Cards */}
       <div className="plan-grid">
         {plans.map((plan) => (
           <div
@@ -99,22 +122,21 @@ const ChoosePlan = () => {
 
             <button
               className={`plan-btn ${plan.highlight ? "plan-btn-highlight" : ""}`}
-              onClick={() => handleSelect(plan.id)}
+              onClick={() => handleSelect(plan)}
+              disabled={loading}
             >
-              {plan.btnLabel}
+              {selected === plan.id && loading ? "Processing..." : plan.btnLabel}
             </button>
           </div>
         ))}
       </div>
 
-      {/* Skip */}
       <div className="plan-skip-wrap">
         <button className="plan-skip-btn" onClick={handleSkip}>
           Skip for now — continue with Free plan
           <span className="plan-skip-arrow">→</span>
         </button>
       </div>
-
     </div>
   );
 };

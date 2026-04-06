@@ -9,9 +9,9 @@ const Signup = () => {
   const [fullName,  setFullName]  = useState("");
   const [email,     setEmail]     = useState("");
   const [password,  setPassword]  = useState("");
-  const [company,   setCompany]   = useState("");   // ← NEW
-  const [jobTitle,  setJobTitle]  = useState("");   // ← NEW
-  const [phone,     setPhone]     = useState("");   // ← NEW
+  const [company,   setCompany]   = useState("");
+  const [jobTitle,  setJobTitle]  = useState("");
+  const [phone,     setPhone]     = useState("");
   const [error,     setError]     = useState("");
   const [loading,   setLoading]   = useState(false);
 
@@ -20,7 +20,7 @@ const Signup = () => {
     setError("");
     setLoading(true);
     try {
-      await api.post("/auth/signup", {
+      const res = await api.post("/auth/signup", {
         email,
         password,
         full_name: fullName,
@@ -28,7 +28,16 @@ const Signup = () => {
         job_title: jobTitle  || null,
         phone:     phone     || null,
       });
-      navigate("/login");
+
+      // Save token
+      localStorage.setItem("access_token", res.data.access_token);
+
+      // Mark that choose-plan should show (first time only)
+      localStorage.setItem("show_choose_plan", "true");
+
+      // Go to choose-plan page
+      navigate("/choose-plan");
+
     } catch (err) {
       setError(err.response?.data?.detail || "Registration failed. Try again.");
     } finally {
@@ -67,7 +76,7 @@ const Signup = () => {
         </div>
       </div>
 
-      {/* Right panel — form */}
+      {/* Right panel */}
       <div className="auth-split-right">
         <div className="auth-card">
           <div className="auth-card-logo">
@@ -80,82 +89,43 @@ const Signup = () => {
           <form onSubmit={handleSignup} className="auth-form">
             {error && <div className="auth-error">{error}</div>}
 
-            {/* Full Name */}
             <div className="form-group">
               <label>Full Name <span className="required">*</span></label>
-              <input
-                type="text"
-                placeholder="Jane Smith"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                required
-              />
+              <input type="text" placeholder="Jane Smith" value={fullName}
+                onChange={(e) => setFullName(e.target.value)} required />
             </div>
 
-            {/* Email */}
             <div className="form-group">
               <label>Email address <span className="required">*</span></label>
-              <input
-                type="email"
-                placeholder="recruiter@company.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+              <input type="email" placeholder="recruiter@company.com" value={email}
+                onChange={(e) => setEmail(e.target.value)} required />
             </div>
 
-            {/* Password */}
             <div className="form-group">
               <label>Password <span className="required">*</span></label>
-              <input
-                type="password"
-                placeholder="Create a strong password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <input type="password" placeholder="Create a strong password" value={password}
+                onChange={(e) => setPassword(e.target.value)} required />
             </div>
 
-            {/* Company — NEW */}
             <div className="form-group">
               <label>Company Name <span className="required">*</span></label>
-              <input
-                type="text"
-                placeholder="e.g. Infosys, TCS, Wipro"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                required
-              />
+              <input type="text" placeholder="e.g. Infosys, TCS, Wipro" value={company}
+                onChange={(e) => setCompany(e.target.value)} required />
             </div>
 
-            {/* Job Title — NEW */}
             <div className="form-group">
               <label>Job Title <span className="required">*</span></label>
-              <input
-                type="text"
-                placeholder="e.g. HR Manager, Recruiter, Talent Acquisition"
-                value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-                required
-              />
+              <input type="text" placeholder="e.g. HR Manager, Recruiter" value={jobTitle}
+                onChange={(e) => setJobTitle(e.target.value)} required />
             </div>
 
-            {/* Phone — NEW (optional) */}
             <div className="form-group">
               <label>Phone Number <span className="optional">(optional)</span></label>
-              <input
-                type="tel"
-                placeholder="e.g. +91 98765 43210"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-              />
+              <input type="tel" placeholder="e.g. +91 98765 43210" value={phone}
+                onChange={(e) => setPhone(e.target.value)} />
             </div>
 
-            <button
-              type="submit"
-              className="auth-submit-btn"
-              disabled={loading}
-            >
+            <button type="submit" className="auth-submit-btn" disabled={loading}>
               {loading ? "Creating account…" : "Create Account →"}
             </button>
 

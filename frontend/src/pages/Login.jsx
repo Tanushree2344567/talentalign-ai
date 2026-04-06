@@ -18,7 +18,7 @@ const Login = () => {
     if (email === "demo@talentalign.com" && password === "demo123") {
       localStorage.setItem("access_token", "demo-token");
       setLoading(false);
-      navigate("/choose-plan");
+      navigate("/dashboard");
       return;
     }
 
@@ -29,7 +29,7 @@ const Login = () => {
         { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
       );
       localStorage.setItem("access_token", response.data.access_token);
-      navigate("/choose-plan");
+      navigate("/dashboard");
     } catch (err) {
       setError(err.response?.data?.detail || "Incorrect email or password. Try demo@talentalign.com / demo123");
     } finally {
@@ -39,8 +39,6 @@ const Login = () => {
 
   return (
     <div className="auth-page">
-
-      {/* LEFT — Branding Panel */}
       <div className="auth-split-left">
         <div className="auth-left-content">
           <div className="auth-left-logo">
@@ -70,7 +68,6 @@ const Login = () => {
         </div>
       </div>
 
-      {/* RIGHT — Login Card */}
       <div className="auth-split-right">
         <div className="auth-card">
           <div className="auth-card-logo">
@@ -121,7 +118,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
