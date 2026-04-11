@@ -1,0 +1,114 @@
+.mj-page { min-height: 100vh; background: var(--bg); }
+.mj-content { max-width: 1100px; margin: 0 auto; padding: 40px 24px 80px; }
+
+.mj-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; margin-bottom: 32px; flex-wrap: wrap;
+}
+.mj-header h1 { font-family: 'Syne', sans-serif; font-size: 30px; font-weight: 800; color: var(--text); margin-bottom: 6px; letter-spacing: -0.8px; }
+.mj-header p  { font-size: 14px; color: var(--text2); }
+
+/* Buttons */
+.mj-btn-primary {
+  padding: 11px 24px; background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border: none; border-radius: 10px; color: #fff; font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  box-shadow: 0 4px 16px rgba(79,140,255,0.3); white-space: nowrap;
+}
+.mj-btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(79,140,255,0.45); }
+.mj-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+.mj-btn-outline {
+  padding: 10px 20px; background: transparent; border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text2); font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+}
+.mj-btn-outline:hover { border-color: var(--border2); color: var(--text); }
+.mj-btn-sm {
+  padding: 7px 14px; background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text2); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: 'DM Sans', sans-serif;
+}
+.mj-btn-sm:hover { border-color: var(--border2); color: var(--text); }
+.mj-btn-apps { color: var(--accent); border-color: rgba(79,140,255,0.2); background: rgba(79,140,255,0.08); }
+.mj-btn-apps:hover { background: rgba(79,140,255,0.15); }
+.mj-btn-delete { color: var(--danger); border-color: rgba(248,113,113,0.25); }
+.mj-btn-delete:hover { background: rgba(248,113,113,0.08); border-color: var(--danger); }
+.mj-btn-copy {
+  padding: 4px 12px; background: transparent; border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text3); font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap; font-family: 'DM Sans', sans-serif;
+}
+.mj-btn-copy:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Loading / Empty */
+.mj-loading { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 80px 24px; color: var(--text2); }
+.mj-spinner { width: 32px; height: 32px; border: 3px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: mj-spin 0.8s linear infinite; }
+@keyframes mj-spin { to { transform: rotate(360deg); } }
+.mj-empty { text-align: center; padding: 80px 24px; }
+.mj-empty-icon { font-size: 52px; margin-bottom: 16px; }
+.mj-empty h3 { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.mj-empty p { font-size: 15px; color: var(--text2); margin-bottom: 24px; }
+
+/* Form card */
+.mj-form-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 28px 32px; margin-bottom: 24px;
+}
+.mj-form-card h2 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 20px; }
+.mj-error { padding: 11px 14px; background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.25); border-radius: 10px; font-size: 13px; color: var(--danger); margin-bottom: 18px; }
+.mj-form { display: flex; flex-direction: column; gap: 16px; }
+.mj-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 640px) { .mj-form-row { grid-template-columns: 1fr; } }
+.mj-form-group { display: flex; flex-direction: column; gap: 7px; }
+.mj-form-group label { font-size: 13px; font-weight: 500; color: var(--text2); }
+.mj-hint-text { font-size: 11px; color: var(--text3); font-weight: 400; }
+.mj-form-group input, .mj-form-group textarea, .mj-form-group select {
+  padding: 11px 14px; background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 10px; color: var(--text); font-size: 14px;
+  font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s;
+}
+.mj-form-group input::placeholder, .mj-form-group textarea::placeholder { color: var(--text3); }
+.mj-form-group input:focus, .mj-form-group textarea:focus, .mj-form-group select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,140,255,0.1); }
+.mj-form-group textarea { resize: vertical; line-height: 1.6; }
+.mj-form-actions { display: flex; justify-content: flex-end; gap: 12px; padding-top: 8px; }
+
+/* Jobs list */
+.mj-jobs-list { display: flex; flex-direction: column; gap: 16px; }
+.mj-job-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: border-color 0.2s; }
+.mj-job-card:hover { border-color: var(--border2); }
+.mj-job-inactive { opacity: 0.6; }
+.mj-job-card-top { display: flex; gap: 20px; padding: 22px 24px; flex-wrap: wrap; }
+.mj-job-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.mj-job-title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.mj-job-title-row h3 { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); margin: 0; }
+.mj-status-badge { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+.mj-active   { background: rgba(52,211,153,0.12); color: var(--accent3); }
+.mj-inactive { background: var(--surface2); color: var(--text3); }
+.mj-job-meta { display: flex; gap: 14px; flex-wrap: wrap; }
+.mj-job-meta span { font-size: 13px; color: var(--text3); }
+.mj-job-desc-preview { font-size: 13px; color: var(--text2); line-height: 1.55; }
+.mj-job-skills { display: flex; flex-wrap: wrap; gap: 5px; }
+.mj-skill-chip { padding: 3px 10px; background: rgba(79,140,255,0.08); border: 1px solid rgba(79,140,255,0.15); border-radius: 20px; font-size: 11px; color: var(--accent); }
+.mj-skill-more { font-size: 11px; color: var(--text3); padding: 3px 6px; }
+.mj-link-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+.mj-link-label { font-size: 12px; color: var(--text3); font-weight: 500; white-space: nowrap; }
+.mj-link-text { font-size: 12px; color: var(--accent); background: var(--bg2); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); font-family: var(--font-mono); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px; }
+.mj-job-actions { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
+
+/* Applications panel */
+.mj-apps-panel { border-top: 1px solid var(--border); padding: 20px 24px; background: var(--bg2); }
+.mj-apps-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.mj-apps-header h4 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin: 0; }
+.mj-apps-empty { font-size: 14px; color: var(--text3); font-style: italic; }
+.mj-apps-table-wrap { overflow-x: auto; border-radius: 10px; border: 1px solid var(--border); }
+.mj-apps-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.mj-apps-table th { padding: 10px 12px; background: var(--bg3); color: var(--text3); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+.mj-apps-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: middle; }
+.mj-apps-table tr:last-child td { border-bottom: none; }
+.mj-td-email { font-size: 12px; color: var(--text3); }
+.mj-td-msg { max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; color: var(--text3); }
+.mj-app-status-select {
+  padding: 5px 10px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--surface2); font-size: 12px; font-family: 'DM Sans', sans-serif;
+  cursor: pointer; outline: none; color: var(--text); font-weight: 500;
+}

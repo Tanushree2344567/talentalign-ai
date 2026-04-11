@@ -1,0 +1,192 @@
+/* ── Charts Section ─────────────────────────────────────────────────────────── */
+
+.charts-section {
+  margin-top: 48px;
+  margin-bottom: 40px;
+}
+
+.charts-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.charts-section-title h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+
+.charts-subtitle {
+  font-size: 13px;
+  color: var(--text3);
+}
+
+/* ── Analytics strip ─────────────────────────────────────────────────────────── */
+
+.analytics-strip {
+  display: flex;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 32px;
+  margin-bottom: 20px;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.analytics-stat {
+  flex: 1;
+  text-align: center;
+  min-width: 100px;
+  padding: 8px 0;
+}
+
+.analytics-stat-number {
+  display: block;
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.analytics-stat-label {
+  font-size: 12px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.analytics-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Charts grid ─────────────────────────────────────────────────────────── */
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.chart-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px 20px;
+  transition: border-color 0.2s;
+}
+
+.chart-card:hover {
+  border-color: var(--border2);
+}
+
+.chart-card--wide {
+  grid-column: span 2;
+}
+
+.chart-card--summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chart-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.chart-card h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 16px;
+}
+
+.chart-card-header h3 {
+  margin: 0;
+}
+
+.chart-badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  background: var(--surface2);
+  border-radius: 100px;
+  color: var(--text3);
+}
+
+/* ── Tooltip ─────────────────────────────────────────────────────────── */
+
+.chart-tooltip {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.chart-tooltip-label {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+/* ── Summary list ─────────────────────────────────────────────────────────── */
+
+.summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.summary-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.summary-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  .chart-card--wide {
+    grid-column: span 1;
+  }
+  .analytics-strip {
+    padding: 16px;
+    gap: 8px;
+  }
+  .analytics-divider {
+    display: none;
+  }
+  .analytics-stat {
+    min-width: 45%;
+  }
+}
